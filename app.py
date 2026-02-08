@@ -1,5 +1,6 @@
 import streamlit as st
 from gtts import gTTS
+import pyttsx3
 import io
 import base64
 import hashlib
@@ -26,90 +27,140 @@ st.markdown("""
     }
     
     .main {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
         min-height: 100vh;
     }
     
     .glass-card {
-        background: rgba(255, 255, 255, 0.1);
+        background: rgba(255, 255, 255, 0.85);
         backdrop-filter: blur(10px);
         border-radius: 20px;
-        border: 1px solid rgba(255, 255, 255, 0.2);
+        border: 2px solid #06b6d4;
         padding: 2rem;
         margin: 1rem 0;
-        box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+        box-shadow: 0 8px 32px rgba(6, 182, 212, 0.15);
     }
     
     .auth-container {
         max-width: 400px;
         margin: 0 auto;
         padding: 3rem;
-        background: rgba(255, 255, 255, 0.95);
+        background: rgba(255, 255, 255, 0.98);
         border-radius: 24px;
-        box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        border: 2px solid #06b6d4;
+        box-shadow: 0 20px 60px rgba(6, 182, 212, 0.25);
     }
     
     .stButton>button {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        background: linear-gradient(135deg, #0891b2 0%, #06b6d4 100%);
         color: white;
         border: none;
         border-radius: 12px;
         padding: 0.75rem 2rem;
-        font-weight: 600;
+        font-weight: 700;
         transition: all 0.3s ease;
         width: 100%;
+        font-size: 1rem;
     }
     
     .stButton>button:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 10px 20px rgba(102, 126, 234, 0.4);
+        transform: translateY(-3px);
+        box-shadow: 0 10px 25px rgba(6, 182, 212, 0.6);
     }
     
     .stTextInput>div>div>input, .stTextArea>div>div>textarea {
-        background: rgba(255, 255, 255, 0.9);
-        border: 2px solid transparent;
+        background: rgba(255, 255, 255, 0.95) !important;
+        color: #0f172a !important;
+        border: 2px solid #06b6d4 !important;
         border-radius: 12px;
-        padding: 1rem;
+        padding: 0.75rem !important;
         transition: all 0.3s ease;
+        font-size: 1rem !important;
+    }
+    
+    .stTextInput>div>div>input::placeholder, .stTextArea>div>div>textarea::placeholder {
+        color: #64748b !important;
     }
     
     .stTextInput>div>div>input:focus, .stTextArea>div>div>textarea:focus {
-        border-color: #667eea;
-        box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
-    }
-    
-    .sidebar-glass {
-        background: rgba(255, 255, 255, 0.05);
-        backdrop-filter: blur(10px);
+        border-color: #0891b2 !important;
+        box-shadow: 0 0 0 4px rgba(6, 182, 212, 0.3) !important;
     }
     
     .metric-card {
-        background: rgba(255, 255, 255, 0.1);
+        background: linear-gradient(135deg, rgba(6, 182, 212, 0.1), rgba(14, 165, 233, 0.1));
         border-radius: 16px;
         padding: 1.5rem;
         text-align: center;
-        border: 1px solid rgba(255, 255, 255, 0.2);
+        border: 2px solid rgba(6, 182, 212, 0.5);
     }
     
     .history-item {
-        background: rgba(255, 255, 255, 0.05);
+        background: rgba(6, 182, 212, 0.08);
         border-radius: 12px;
         padding: 1rem;
         margin: 0.5rem 0;
-        border-left: 4px solid #667eea;
+        border-left: 4px solid #0891b2;
     }
     
-    h1, h2, h3 {
-        color: white !important;
-        font-weight: 700 !important;
+    h1, h2, h3, h4 {
+        color: #0f172a !important;
+        font-weight: 800 !important;
+    }
+    
+    p, div, label, span {
+        color: #1e293b !important;
     }
     
     .welcome-text {
         font-size: 2.5rem;
-        background: linear-gradient(120deg, #a1c4fd 0%, #c2e9fb 100%);
+        background: linear-gradient(120deg, #0891b2 0%, #06b6d4 100%);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         font-weight: 800;
+    }
+    
+    .user-card {
+        background: linear-gradient(135deg, rgba(6, 182, 212, 0.15), rgba(14, 165, 233, 0.1));
+        border: 2px solid #06b6d4;
+        border-radius: 16px;
+        padding: 1.2rem;
+        text-align: center;
+        margin-bottom: 1rem;
+    }
+    
+    .user-card h3 {
+        color: #0891b2;
+        margin: 0;
+        font-size: 1.3rem;
+    }
+    
+    .user-card p {
+        color: #1e293b;
+        margin: 0;
+        font-size: 0.95rem;
+        font-weight: 600;
+    }
+    
+    .stSelectbox>div>div>select {
+        background-color: rgba(255, 255, 255, 0.95) !important;
+        color: #0f172a !important;
+        border: 2px solid #06b6d4 !important;
+    }
+    
+    .stRadio>div {
+        color: #0f172a !important;
+    }
+    
+    .stRadio label, .stCheckbox label {
+        color: #1e293b !important;
+        font-size: 1rem !important;
+        font-weight: 600 !important;
+    }
+    
+    .stTabs [data-baseweb="tab"] {
+        color: #1e293b !important;
+        font-weight: 600 !important;
     }
 </style>
 """, unsafe_allow_html=True)
@@ -121,10 +172,18 @@ if 'logged_in' not in st.session_state:
     st.session_state.logged_in = False
 if 'current_user' not in st.session_state:
     st.session_state.current_user = None
+if 'user_data' not in st.session_state:
+    st.session_state.user_data = None
 if 'audio_history' not in st.session_state:
     st.session_state.audio_history = []
 if 'page' not in st.session_state:
     st.session_state.page = 'login'
+
+# Auto-restore login state if user_data exists
+if st.session_state.user_data is not None and st.session_state.current_user is not None:
+    st.session_state.logged_in = True
+else:
+    st.session_state.logged_in = False
 
 # User data file
 USER_DATA_FILE = 'users.json'
@@ -176,6 +235,69 @@ def text_to_speech(text, lang='en', slow=False):
     except Exception as e:
         return None, str(e)
 
+def text_to_speech_advanced(text, voice_type='normal', gender='female', emotion='neutral'):
+    """
+    Advanced TTS with voice and emotion options using pyttsx3
+    """
+    try:
+        engine = pyttsx3.init()
+        
+        # Get available voices
+        voices = engine.getProperty('voices')
+        
+        # Select voice based on gender
+        if gender == 'male':
+            # Usually the first voice is male, second is female (varies by system)
+            voice_id = voices[0].id if len(voices) > 0 else voices[0].id
+        else:
+            # Female voice
+            voice_id = voices[1].id if len(voices) > 1 else voices[0].id
+        
+        engine.setProperty('voice', voice_id)
+        
+        # Modify speech parameters based on emotion/voice type
+        rate = engine.getProperty('rate')  # Default rate
+        volume = engine.getProperty('volume')
+        
+        if voice_type == 'angry':
+            rate = 150  # Faster, more aggressive
+            volume = 1.0
+        elif voice_type == 'kind':
+            rate = 110  # Slower, gentler
+            volume = 0.9
+        elif voice_type == 'exclamation':
+            rate = 140  # Fast and excited
+            volume = 1.0
+        elif voice_type == 'question':
+            rate = 115  # Slightly slower for clarity
+            volume = 0.95
+        elif voice_type == 'whisper':
+            rate = 100
+            volume = 0.6
+        else:  # normal
+            rate = 125
+            volume = 0.95
+        
+        engine.setProperty('rate', rate)
+        engine.setProperty('volume', volume)
+        
+        # Save to bytes
+        fp = io.BytesIO()
+        engine.save_to_file(text, 'temp_audio.mp3')
+        engine.runAndWait()
+        
+        # Read the saved file
+        if os.path.exists('temp_audio.mp3'):
+            with open('temp_audio.mp3', 'rb') as f:
+                fp.write(f.read())
+            fp.seek(0)
+            os.remove('temp_audio.mp3')
+            return fp, None
+        else:
+            return None, "Could not generate audio"
+    except Exception as e:
+        return None, str(e)
+
 def get_audio_download_link(audio_buffer, filename):
     audio_buffer.seek(0)
     b64 = base64.b64encode(audio_buffer.read()).decode()
@@ -189,8 +311,8 @@ def login_page():
     
     with col2:
         st.markdown('<div class="auth-container">', unsafe_allow_html=True)
-        st.markdown('<h2 style="text-align:center;color:#667eea;">🎙️ VoiceCraft Pro</h2>', unsafe_allow_html=True)
-        st.markdown('<p style="text-align:center;color:#666;margin-bottom:2rem;">Sign in to continue</p>', unsafe_allow_html=True)
+        st.markdown('<h2 style="text-align:center;color:#0891b2;font-size:2.2rem;">🎙️ VoiceCraft Pro</h2>', unsafe_allow_html=True)
+        st.markdown('<p style="text-align:center;color:#1e293b;margin-bottom:2rem;font-size:1.05rem;font-weight:500;">Sign in to continue</p>', unsafe_allow_html=True)
         
         tab1, tab2 = st.tabs(["Login", "Sign Up"])
         
@@ -241,9 +363,9 @@ def main_app():
     # Sidebar
     with st.sidebar:
         st.markdown(f"""
-        <div style="text-align:center;padding:1rem;background:rgba(255,255,255,0.1);border-radius:16px;margin-bottom:1rem;">
-            <h3 style="color:white;margin:0;">👤 {user_data['name']}</h3>
-            <p style="color:rgba(255,255,255,0.7);margin:0;font-size:0.9rem;">@{st.session_state.current_user}</p>
+        <div class="user-card">
+            <h3>👤 {user_data['name']}</h3>
+            <p>@{st.session_state.current_user}</p>
         </div>
         """, unsafe_allow_html=True)
         
@@ -253,8 +375,8 @@ def main_app():
         st.markdown("### 📊 Your Stats")
         st.markdown(f"""
         <div class="metric-card">
-            <h4 style="color:white;margin:0;">{user_data.get('total_conversions', 0)}</h4>
-            <p style="color:rgba(255,255,255,0.7);margin:0;">Total Conversions</p>
+            <h4 style="color:#0891b2;margin:0;font-size:2rem;">{user_data.get('total_conversions', 0)}</h4>
+            <p style="color:#1e293b;margin:0;font-weight:600;">Total Conversions</p>
         </div>
         """, unsafe_allow_html=True)
         
@@ -262,13 +384,15 @@ def main_app():
         
         # Navigation
         page = st.radio("Navigate", 
-                       ["🎙️ Text to Speech", "📁 File Upload", "📜 History", "⚙️ Settings"])
+                       ["🎙️ Text to Speech", "📁 File Upload", "📜 History", "⚙️ Settings"],
+                       label_visibility="collapsed")
         
         st.markdown("---")
         
-        if st.button("🚪 Logout", type="secondary"):
+        if st.button("🚪 Logout", type="secondary", use_container_width=True):
             st.session_state.logged_in = False
             st.session_state.current_user = None
+            st.session_state.user_data = None
             st.rerun()
     
     # Main Content Area
@@ -313,7 +437,24 @@ def tts_page():
                 st.info("Use Ctrl+V to paste")
     
     with col2:
-        st.markdown("### ⚙️ Voice Settings")
+        st.markdown("### ⚙️ Settings")
+        
+        # Voice Type Selection
+        voice_type = st.selectbox(
+            "Voice Type",
+            ["Normal", "Angry", "Kind", "Exclamation", "Question", "Whisper"],
+            help="Choose the emotion/style of the voice"
+        )
+        
+        # Gender Selection
+        gender = st.radio(
+            "Voice Gender",
+            ["Female", "Male"],
+            horizontal=True,
+            help="Select voice gender"
+        )
+        
+        st.markdown("---")
         
         languages = {
             'English (US)': 'en',
@@ -354,7 +495,15 @@ def tts_page():
             st.error("⚠️ Text too long! Max 5000 characters.")
         else:
             with st.spinner("🎵 Generating audio... Please wait"):
-                audio_buffer, error = text_to_speech(text_input, lang_code, slow_speed)
+                # Map voice type to lowercase for function
+                voice_type_lower = voice_type.lower()
+                gender_lower = gender.lower()
+                
+                audio_buffer, error = text_to_speech_advanced(
+                    text_input, 
+                    voice_type=voice_type_lower, 
+                    gender=gender_lower
+                )
                 
                 if error:
                     st.error(f"❌ Error: {error}")
@@ -380,7 +529,9 @@ def tts_page():
                                 'text': text_input[:100] + "..." if len(text_input) > 100 else text_input,
                                 'audio': audio_buffer.getvalue(),
                                 'timestamp': datetime.now().strftime("%Y-%m-%d %H:%M"),
-                                'language': selected_lang
+                                'language': selected_lang,
+                                'voice_type': voice_type,
+                                'gender': gender
                             })
                             st.success("Saved!")
                     
@@ -435,7 +586,8 @@ def history_page():
         st.info("No history yet. Start converting text to see your history here!")
     else:
         for idx, item in enumerate(reversed(st.session_state.audio_history[-10:])):
-            with st.expander(f"🎵 {item['timestamp']} - {item['language']}"):
+            voice_info = f"{item.get('voice_type', 'Normal')} | {item.get('gender', 'Female')} | {item['language']}"
+            with st.expander(f"🎵 {item['timestamp']} - {voice_info}"):
                 st.write(f"**Text:** {item['text']}")
                 st.audio(io.BytesIO(item['audio']), format='audio/mp3')
                 

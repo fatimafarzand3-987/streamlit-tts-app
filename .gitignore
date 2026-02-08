@@ -1,4 +1,23 @@
+# User data - keep private
 users.json
-*.json
-# Or more specifically
-data/users.json
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.so
+
+# Virtual environment
+venv/
+env/
+ENV/
+
+# IDE
+.vscode/
+.idea/
+
+# OS files
+.Desktop.ini
+Thumbs.db
