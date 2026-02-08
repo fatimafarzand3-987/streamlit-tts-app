@@ -1,0 +1,4 @@
+users.json
+*.json
+# Or more specifically
+data/users.json
